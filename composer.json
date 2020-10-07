@@ -3,9 +3,9 @@
   "description": "A simple library to encode and decode Microsoft Active Directory Federation Services (ADFS) JSON Web Tokens (JWT) in PHP, conforming to RFC 7519",
   "homepage": "https://github.com/alancting/php-adfs-jwt",
   "keywords": [
-    "php", "jwt"
+    "php", "jwt", "openid", "adfs", "microsoft"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     {
       "name": "Neuman Vong",
@@ -16,7 +16,8 @@
       "email": "anant@php.net",
       "role": "Developer"
     }, {
-      "name": "alancting"
+      "name": "alancting",
+      "homepage": "https://github.com/alancting"
     }
   ],
   "license": "BSD-3-Clause",
