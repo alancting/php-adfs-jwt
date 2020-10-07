@@ -1,7 +1,14 @@
 <?php
-namespace Firebase\JWT;
+
+namespace Alancting\Adfs\Tests;
 
 use PHPUnit\Framework\TestCase;
+
+use Alancting\Adfs\JWT\BeforeValidException;
+use Alancting\Adfs\JWT\ExpiredException;
+use Alancting\Adfs\JWT\SignatureInvalidException;
+use Alancting\Adfs\JWT\JWT;
+use Alancting\Adfs\JWT\JWK;
 
 class JWKTest extends TestCase
 {
@@ -52,7 +59,7 @@ class JWKTest extends TestCase
         $payload = array('exp' => strtotime('-1 hour'));
         $msg = JWT::encode($payload, $privKey1, 'RS256', 'jwk1');
 
-        $this->setExpectedException('Firebase\JWT\ExpiredException');
+        $this->setExpectedException('Alancting\Adfs\JWT\ExpiredException');
 
         JWT::decode($msg, self::$keys, array('RS256'));
     }
