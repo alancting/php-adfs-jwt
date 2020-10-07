@@ -1,11 +1,11 @@
 {
   "name": "alancting/php-adfs-jwt",
-  "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+  "description": "A simple library to encode and decode Microsoft Active Directory Federation Services (ADFS) JSON Web Tokens (JWT) in PHP, conforming to RFC 7519",
   "homepage": "https://github.com/alancting/php-adfs-jwt",
   "keywords": [
     "php", "jwt"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "authors": [
     {
       "name": "Neuman Vong",
