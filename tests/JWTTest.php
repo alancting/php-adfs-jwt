@@ -1,8 +1,15 @@
 <?php
-namespace Firebase\JWT;
+
+namespace Alancting\Adfs\Tests;
 
 use ArrayObject;
 use PHPUnit\Framework\TestCase;
+
+use Alancting\Adfs\JWT\BeforeValidException;
+use Alancting\Adfs\JWT\ExpiredException;
+use Alancting\Adfs\JWT\SignatureInvalidException;
+use Alancting\Adfs\JWT\JWT;
+use Alancting\Adfs\JWT\JWK;
 
 class JWTTest extends TestCase
 {
@@ -53,7 +60,7 @@ class JWTTest extends TestCase
 
     public function testExpiredToken()
     {
-        $this->setExpectedException('Firebase\JWT\ExpiredException');
+        $this->setExpectedException('Alancting\Adfs\JWT\ExpiredException');
         $payload = array(
             "message" => "abc",
             "exp" => time() - 20); // time in the past
@@ -63,7 +70,7 @@ class JWTTest extends TestCase
 
     public function testBeforeValidTokenWithNbf()
     {
-        $this->setExpectedException('Firebase\JWT\BeforeValidException');
+        $this->setExpectedException('Alancting\Adfs\JWT\BeforeValidException');
         $payload = array(
             "message" => "abc",
             "nbf" => time() + 20); // time in the future
@@ -73,7 +80,7 @@ class JWTTest extends TestCase
 
     public function testBeforeValidTokenWithIat()
     {
-        $this->setExpectedException('Firebase\JWT\BeforeValidException');
+        $this->setExpectedException('Alancting\Adfs\JWT\BeforeValidException');
         $payload = array(
             "message" => "abc",
             "iat" => time() + 20); // time in the future
@@ -109,7 +116,7 @@ class JWTTest extends TestCase
         $payload = array(
             "message" => "abc",
             "exp" => time() - 70); // time far in the past
-        $this->setExpectedException('Firebase\JWT\ExpiredException');
+        $this->setExpectedException('Alancting\Adfs\JWT\ExpiredException');
         $encoded = JWT::encode($payload, 'my_key');
         $decoded = JWT::decode($encoded, 'my_key', array('HS256'));
         $this->assertEquals($decoded->message, 'abc');
@@ -157,7 +164,7 @@ class JWTTest extends TestCase
             "message" => "abc",
             "nbf"     => time() + 65); // not before too far in future
         $encoded = JWT::encode($payload, 'my_key');
-        $this->setExpectedException('Firebase\JWT\BeforeValidException');
+        $this->setExpectedException('Alancting\Adfs\JWT\BeforeValidException');
         JWT::decode($encoded, 'my_key', array('HS256'));
         JWT::$leeway = 0;
     }
@@ -181,7 +188,7 @@ class JWTTest extends TestCase
             "message" => "abc",
             "iat"     => time() + 65); // issued too far in future
         $encoded = JWT::encode($payload, 'my_key');
-        $this->setExpectedException('Firebase\JWT\BeforeValidException');
+        $this->setExpectedException('Alancting\Adfs\JWT\BeforeValidException');
         JWT::decode($encoded, 'my_key', array('HS256'));
         JWT::$leeway = 0;
     }
@@ -192,7 +199,7 @@ class JWTTest extends TestCase
             "message" => "abc",
             "exp" => time() + 20); // time in the future
         $encoded = JWT::encode($payload, 'my_key');
-        $this->setExpectedException('Firebase\JWT\SignatureInvalidException');
+        $this->setExpectedException('Alancting\Adfs\JWT\SignatureInvalidException');
         JWT::decode($encoded, 'my_key2', array('HS256'));
     }
 
@@ -218,9 +225,11 @@ class JWTTest extends TestCase
 
     public function testRSEncodeDecode()
     {
-        $privKey = openssl_pkey_new(array('digest_alg' => 'sha256',
+        $privKey = openssl_pkey_new(
+            array('digest_alg' => 'sha256',
             'private_key_bits' => 1024,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA));
+            'private_key_type' => OPENSSL_KEYTYPE_RSA)
+        );
         $msg = JWT::encode('abc', $privKey, 'RS256');
         $pubKey = openssl_pkey_get_details($privKey);
         $pubKey = $pubKey['key'];
