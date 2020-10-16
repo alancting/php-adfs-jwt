@@ -7,9 +7,13 @@
 
 # PHP-ADFS-JWT
 
+**No longer maintained.**  
+**Please moved to https://github.com/alancting/php-microsoft-jwt**
+
 A simple library to encode and decode Microsoft Active Directory Federation Services ([ADFS](https://docs.microsoft.com/en-us/windows-server/identity/ad-fs/ad-fs-overview)) JSON Web Tokens (JWT) in PHP, conforming to [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
 **Forked From [firebase/php-jwt](https://github.com/firebase/php-jwt)**
+
 
 ## Installation
 
